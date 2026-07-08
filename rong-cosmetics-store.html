@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>রং — কসমেটিকস স্টোর</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2B1520;
+    --plum:#4A1942;
+    --plum-2:#5E2352;
+    --blush:#F6DCE0;
+    --cream:#FBF6F1;
+    --gold:#C9974B;
+    --rose:#C1487A;
+    --line:rgba(43,21,32,0.12);
+    --white:#FFFFFF;
+    --shade-lip:#C1487A;
+    --shade-skin:#E8B478;
+    --shade-eye:#7A5C8F;
+    --shade-hair:#8C5A3C;
+    --radius:14px;
+    --shadow:0 12px 28px -12px rgba(74,25,66,0.28);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
+  }
+  h1,h2,h3,.disp{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- layout shells ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:40;
+    background:rgba(251,246,241,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1180px;margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces',serif;font-size:28px;font-weight:700;
+    color:var(--plum);letter-spacing:-0.02em;
+  }
+  .logo em{font-style:italic;color:var(--rose);}
+  .cart-btn{
+    display:flex;align-items:center;gap:8px;
+    background:var(--plum);color:var(--cream);
+    padding:10px 18px;border-radius:100px;
+    font-weight:600;font-size:14px;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .cart-btn:hover{background:var(--plum-2);transform:translateY(-1px);}
+  .cart-count{
+    background:var(--gold);color:var(--ink);
+    min-width:20px;height:20px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;
+  }
+
+  /* ---------- shade strip (signature) ---------- */
+  .shade-strip{
+    display:flex;gap:10px;overflow-x:auto;padding:14px 24px 16px;
+    max-width:1180px;margin:0 auto;
+  }
+  .shade-strip::-webkit-scrollbar{display:none;}
+  .shade-pill{
+    display:flex;align-items:center;gap:8px;flex-shrink:0;
+    padding:8px 16px 8px 8px;border-radius:100px;
+    background:var(--white);border:1px solid var(--line);
+    font-size:13px;font-weight:600;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .shade-pill:hover{transform:translateY(-1px);}
+  .shade-pill.active{border-color:var(--ink);background:var(--blush);}
+  .swatch{width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid rgba(255,255,255,0.7);box-shadow:0 0 0 1px rgba(43,21,32,0.15);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:56px 24px 40px;
+    background:
+      radial-gradient(circle at 82% 15%, rgba(193,72,122,0.16), transparent 55%),
+      radial-gradient(circle at 10% 90%, rgba(201,151,75,0.18), transparent 50%);
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--plum);font-weight:700;margin-bottom:18px;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--rose);}
+  .hero h1{font-size:clamp(36px,5vw,58px);line-height:1.05;color:var(--ink);}
+  .hero h1 i{font-style:italic;color:var(--rose);}
+  .hero p{font-size:16px;line-height:1.65;color:rgba(43,21,32,0.72);margin-top:18px;max-width:46ch;}
+  .hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink);color:var(--cream);padding:14px 26px;border-radius:100px;
+    font-weight:700;font-size:14px;transition:transform .15s ease, background .15s ease;
+  }
+  .btn-primary:hover{background:var(--plum);transform:translateY(-1px);}
+  .btn-ghost{
+    padding:14px 22px;border-radius:100px;font-weight:700;font-size:14px;
+    border:1.5px solid var(--ink);transition:background .15s ease;
+  }
+  .btn-ghost:hover{background:var(--blush);}
+  .hero-card{
+    background:linear-gradient(160deg, var(--plum), var(--plum-2));
+    border-radius:24px;padding:36px;color:var(--cream);
+    box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .hero-card::after{
+    content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;
+    border-radius:50%;background:radial-gradient(circle, rgba(201,151,75,0.35), transparent 70%);
+  }
+  .hero-card .disp{font-size:22px;color:var(--cream);}
+  .hero-swatches{display:flex;gap:10px;margin:20px 0;}
+  .hero-swatch{width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);}
+  .hero-card p{color:rgba(251,246,241,0.78);font-size:14px;line-height:1.6;margin-top:14px;}
+
+  /* ---------- product grid ---------- */
+  .section{padding:56px 24px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:8px;}
+  .section-head h2{font-size:30px;}
+  .section-head span{font-size:13px;color:rgba(43,21,32,0.55);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(230px,1fr));gap:20px;}
+  .card{
+    background:var(--white);border-radius:var(--radius);overflow:hidden;
+    border:1px solid var(--line);transition:transform .18s ease, box-shadow .18s ease;
+    display:flex;flex-direction:column;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .card-media{
+    aspect-ratio:1/0.9;position:relative;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-size:15px;font-style:italic;
+    color:rgba(255,255,255,0.92);
+  }
+  .card-tag{
+    position:absolute;top:10px;left:10px;
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;
+    background:rgba(255,255,255,0.85);color:var(--ink);
+  }
+  .card-body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .card-body h3{font-size:16px;font-weight:600;line-height:1.3;}
+  .card-desc{font-size:12.5px;color:rgba(43,21,32,0.6);line-height:1.5;flex:1;}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .price{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:15px;}
+  .add-btn{
+    background:var(--blush);color:var(--ink);padding:8px 14px;border-radius:100px;
+    font-size:12.5px;font-weight:700;transition:background .15s ease;
+  }
+  .add-btn:hover{background:var(--rose);color:var(--white);}
+  .add-btn.added{background:var(--ink);color:var(--cream);}
+  .stock-low{font-size:11px;color:var(--rose);font-weight:700;margin-top:2px;}
+  .empty-note{color:rgba(43,21,32,0.55);font-size:14px;padding:40px 0;text-align:center;}
+
+  /* ---------- cart drawer ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(43,21,32,0.45);z-index:50;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);
+    background:var(--cream);z-index:51;box-shadow:-20px 0 40px rgba(0,0,0,0.15);
+    transform:translateX(100%);transition:transform .25s ease;
+    display:flex;flex-direction:column;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{padding:22px 22px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .drawer-head h3{font-size:20px;}
+  .icon-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:background .15s ease;}
+  .icon-btn:hover{background:var(--blush);}
+  .drawer-items{flex:1;overflow-y:auto;padding:16px 22px;display:flex;flex-direction:column;gap:14px;}
+  .cart-row{display:flex;gap:12px;align-items:center;}
+  .cart-thumb{width:52px;height:52px;border-radius:10px;flex-shrink:0;}
+  .cart-info{flex:1;min-width:0;}
+  .cart-info h4{font-size:13.5px;font-weight:700;margin:0;}
+  .cart-info span{font-size:12px;color:rgba(43,21,32,0.55);}
+  .qty-ctrl{display:flex;align-items:center;gap:8px;}
+  .qty-ctrl button{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;font-size:14px;}
+  .drawer-foot{padding:18px 22px 24px;border-top:1px solid var(--line);}
+  .total-row{display:flex;justify-content:space-between;font-size:15px;font-weight:700;margin-bottom:14px;}
+  .full-btn{width:100%;background:var(--ink);color:var(--cream);padding:15px;border-radius:100px;font-weight:700;font-size:14.5px;transition:background .15s ease;}
+  .full-btn:hover{background:var(--plum);}
+  .full-btn:disabled{opacity:0.45;cursor:not-allowed;}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(43,21,32,0.5);z-index:60;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal{
+    background:var(--cream);border-radius:20px;max-width:480px;width:100%;
+    max-height:88vh;overflow-y:auto;padding:30px;
+    transform:scale(0.96);transition:transform .2s ease;
+  }
+  .modal-overlay.open .modal{transform:scale(1);}
+  .modal h3{font-size:22px;margin-bottom:6px;}
+  .modal .step-note{font-size:13px;color:rgba(43,21,32,0.55);margin-bottom:20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
+  .field input,.field select,.field textarea{
+    width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--white);font-family:inherit;font-size:14px;color:var(--ink);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--plum);outline-offset:1px;}
+  .pay-box{
+    background:var(--blush);border-radius:14px;padding:16px;margin:14px 0;
+  }
+  .pay-box .num{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--plum);}
+  .pay-tabs{display:flex;gap:8px;margin-bottom:12px;}
+  .pay-tab{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--line);font-weight:700;font-size:13px;text-align:center;transition:all .15s ease;}
+  .pay-tab.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;}
+  .modal-actions .btn-primary,.modal-actions .btn-ghost{flex:1;text-align:center;}
+  .confirm-code{
+    font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--plum);
+    background:var(--blush);padding:14px;border-radius:12px;text-align:center;margin:16px 0;letter-spacing:0.03em;
+  }
+
+  /* ---------- footer / admin ---------- */
+  footer{padding:36px 24px 60px;text-align:center;color:rgba(43,21,32,0.5);font-size:13px;}
+  footer button{text-decoration:underline;font-size:12px;color:rgba(43,21,32,0.4);margin-top:8px;}
+
+  .admin-shell{max-width:980px;margin:0 auto;padding:40px 24px 80px;}
+  .admin-tabs{display:flex;gap:10px;margin-bottom:28px;border-bottom:1px solid var(--line);}
+  .admin-tab{padding:12px 4px;margin-right:20px;font-weight:700;font-size:14px;color:rgba(43,21,32,0.5);border-bottom:2px solid transparent;}
+  .admin-tab.active{color:var(--ink);border-color:var(--rose);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--white);border-radius:12px;overflow:hidden;}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);}
+  th{background:var(--blush);font-size:11.5px;text-transform:uppercase;letter-spacing:0.04em;}
+  select.status{padding:6px 10px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;}
+  .admin-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:var(--white);padding:20px;border-radius:14px;margin-bottom:24px;border:1px solid var(--line);}
+  .admin-form .field.full{grid-column:1/-1;}
+  .small-btn{background:var(--ink);color:var(--cream);padding:9px 16px;border-radius:100px;font-size:12.5px;font-weight:700;}
+  .small-btn.danger{background:#8f2b3f;}
+  .loading{padding:60px;text-align:center;color:rgba(43,21,32,0.5);}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:var(--cream);padding:12px 22px;border-radius:100px;
+    font-size:13.5px;font-weight:600;z-index:80;opacity:0;transition:all .25s ease;pointer-events:none;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:760px){
+    .hero-inner{grid-template-columns:1fr;}
+    .admin-form{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ constants ============ */
+const CATEGORIES = [
+  {id:'lip', name:'ঠোঁট', color:'var(--shade-lip)'},
+  {id:'skin', name:'ত্বক', color:'var(--shade-skin)'},
+  {id:'eye', name:'চোখ', color:'var(--shade-eye)'},
+  {id:'hair', name:'চুল', color:'var(--shade-hair)'},
+];
+const ADMIN_PIN = '1234';
+const PAY_NUMBERS = { bkash: '01XXXXXXXXX', nagad: '01XXXXXXXXX' };
+
+const DEFAULT_PRODUCTS = [
+  {id:'p1',name:'ম্যাট লিকুইড লিপস্টিক — বেরি ফ্লাশ',category:'lip',price:450,stock:18,desc:'লম্বা সময় স্থায়ী, হালকা টেক্সচার, একবার লাগালেই সারাদিন।'},
+  {id:'p2',name:'ভিটামিন সি গ্লো সিরাম',category:'skin',price:690,stock:12,desc:'উজ্জ্বলতা বাড়ায়, দাগ হালকা করে, সব ধরনের ত্বকের জন্য উপযোগী।'},
+  {id:'p3',name:'ক্রিমি আই শ্যাডো প্যালেট — ৬ শেড',category:'eye',price:820,stock:7,desc:'ব্লেন্ডেবল ফিনিশ, ডে থেকে নাইট লুক দুটোই মানানসই।'},
+  {id:'p4',name:'আর্গান অয়েল হেয়ার সিরাম',category:'hair',price:520,stock:15,desc:'চুল মসৃণ ও ঝলমলে রাখে, ফ্রিজ কমায়।'},
+  {id:'p5',name:'হাইড্রেটিং শিট মাস্ক (৫ পিস)',category:'skin',price:390,stock:24,desc:'গভীর ময়েশ্চারাইজেশন, ১৫ মিনিটেই ফলাফল।'},
+  {id:'p6',name:'ভলিউমাইজিং মাস্কারা',category:'eye',price:410,stock:20,desc:'ওয়াটারপ্রুফ, স্মাজ-প্রুফ ফর্মুলা।'},
+  {id:'p7',name:'ম্যাট লিকুইড লিপস্টিক — নুড ব্লাশ',category:'lip',price:450,stock:3,desc:'নিত্যদিনের জন্য পারফেক্ট প্রাকৃতিক শেড।'},
+  {id:'p8',name:'কেরাটিন হেয়ার মাস্ক',category:'hair',price:560,stock:9,desc:'সপ্তাহে একবার ব্যবহারে চুল হয়ে ওঠে নরম ও মজবুত।'},
+];
+
+/* ============ state ============ */
+let products = [];
+let orders = [];
+let cart = {}; // id -> qty
+let activeFilter = 'all';
+let view = 'store'; // store | admin
+let adminAuthed = false;
+let adminTab = 'orders';
+let checkoutStep = 0; // 0 closed, 1 info, 2 payment, 3 done
+let lastOrderCode = '';
+let drawerOpen = false;
+let loading = true;
+
+/* ============ storage helpers ============ */
+async function loadData(){
+  try{
+    const p = await window.storage.get('rong:products', true);
+    products = p ? JSON.parse(p.value) : null;
+  }catch(e){ products = null; }
+  if(!products){
+    products = DEFAULT_PRODUCTS;
+    try{ await window.storage.set('rong:products', JSON.stringify(products), true); }catch(e){}
+  }
+  try{
+    const o = await window.storage.get('rong:orders', true);
+    orders = o ? JSON.parse(o.value) : [];
+  }catch(e){ orders = []; }
+  loading = false;
+  render();
+}
+async function saveProducts(){
+  try{ await window.storage.set('rong:products', JSON.stringify(products), true); }
+  catch(e){ showToast('সংরক্ষণে সমস্যা হয়েছে, আবার চেষ্টা করুন'); }
+}
+async function saveOrders(){
+  try{ await window.storage.set('rong:orders', JSON.stringify(orders), true); }
+  catch(e){ showToast('সংরক্ষণে সমস্যা হয়েছে, আবার চেষ্টা করুন'); }
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ============ cart logic ============ */
+function addToCart(id){
+  cart[id] = (cart[id]||0)+1;
+  render();
+  showToast('কার্টে যোগ হয়েছে');
+}
+function changeQty(id, delta){
+  cart[id] = (cart[id]||0)+delta;
+  if(cart[id]<=0) delete cart[id];
+  render();
+}
+function cartCount(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function cartTotal(){
+  return Object.entries(cart).reduce((sum,[id,qty])=>{
+    const p = products.find(x=>x.id===id);
+    return sum + (p? p.price*qty : 0);
+  },0);
+}
+
+/* ============ checkout ============ */
+let checkoutInfo = {name:'',phone:'',address:'',city:'',method:'bkash',txn:''};
+function openCheckout(){
+  if(cartCount()===0) return;
+  checkoutStep = 1;
+  render();
+}
+function closeCheckout(){ checkoutStep = 0; render(); }
+function goCheckoutStep(n){ checkoutStep = n; render(); }
+function setPayMethod(m){ checkoutInfo.method = m; render(); }
+
+async function submitOrder(){
+  const code = 'RNG-' + Math.floor(1000+Math.random()*9000);
+  const items = Object.entries(cart).map(([id,qty])=>{
+    const p = products.find(x=>x.id===id);
+    return {id, name:p.name, price:p.price, qty};
+  });
+  const order = {
+    code,
+    customer: checkoutInfo.name,
+    phone: checkoutInfo.phone,
+    address: checkoutInfo.address + ', ' + checkoutInfo.city,
+    items,
+    total: cartTotal(),
+    method: checkoutInfo.method,
+    txn: checkoutInfo.txn,
+    status: 'Pending Verification',
+    createdAt: new Date().toISOString(),
+  };
+  orders.push(order);
+  await saveOrders();
+  lastOrderCode = code;
+  cart = {};
+  checkoutStep = 3;
+  render();
+}
+
+/* ============ admin ============ */
+function tryAdminLogin(pin){
+  if(pin === ADMIN_PIN){ adminAuthed = true; view='admin'; render(); }
+  else showToast('ভুল পিন');
+}
+async function updateOrderStatus(code, status){
+  const o = orders.find(x=>x.code===code);
+  if(o){ o.status = status; await saveOrders(); render(); showToast('অর্ডার আপডেট হয়েছে'); }
+}
+async function deleteProduct(id){
+  products = products.filter(p=>p.id!==id);
+  await saveProducts(); render(); showToast('পণ্য মুছে ফেলা হয়েছে');
+}
+async function addProduct(data){
+  const id = 'p' + Date.now();
+  products.push({id, ...data});
+  await saveProducts(); render(); showToast('নতুন পণ্য যোগ হয়েছে');
+}
+
+/* ============ render ============ */
+function render(){
+  const app = document.getElementById('app');
+  if(loading){ app.innerHTML = '<div class="loading">লোড হচ্ছে…</div>'; return; }
+  app.innerHTML = view==='admin' ? renderAdmin() : renderStore();
+  attachEvents();
+}
+
+function renderNav(){
+  return `
+  <div class="nav">
+    <div class="nav-row">
+      <div class="logo">র<em>ং</em></div>
+      <button class="cart-btn" id="openCartBtn">
+        কার্ট <span class="cart-count">${cartCount()}</span>
+      </button>
+    </div>
+    <div class="shade-strip">
+      <button class="shade-pill ${activeFilter==='all'?'active':''}" data-filter="all">
+        <span class="swatch" style="background:linear-gradient(135deg,var(--shade-lip),var(--shade-skin),var(--shade-eye),var(--shade-hair));"></span> সব পণ্য
+      </button>
+      ${CATEGORIES.map(c=>`
+        <button class="shade-pill ${activeFilter===c.id?'active':''}" data-filter="${c.id}">
+          <span class="swatch" style="background:${c.color};"></span> ${c.name}
+        </button>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderHero(){
+  return `
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> ছোট ব্যাচ, খাঁটি উপকরণ</div>
+        <h1>আপনার রং, <i>আপনার নিয়মে।</i></h1>
+        <p>ঠোঁট থেকে চুল — প্রতিদিনের রূপচর্চার জন্য বাছাই করা কসমেটিকস, ঘরে বসে অর্ডার করুন, বিকাশ বা নগদে পেমেন্ট করুন।</p>
+        <div class="hero-actions">
+          <a href="#shop" class="btn-primary">এখনই কিনুন</a>
+          <a href="#how" class="btn-ghost">পেমেন্ট নিয়ম জানুন</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="disp">এই সপ্তাহের শেড প্যালেট</div>
+        <div class="hero-swatches">
+          ${CATEGORIES.map(c=>`<span class="hero-swatch" style="background:${c.color};"></span>`).join('')}
+        </div>
+        <p>প্রতিটি ক্যাটাগরি থেকে বাছাই করা বেস্টসেলার প্রোডাক্ট। স্টক সীমিত — আগে এলে আগে পাবেন।</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderGrid(){
+  const list = activeFilter==='all' ? products : products.filter(p=>p.category===activeFilter);
+  if(list.length===0) return `<div class="empty-note">এই ক্যাটাগরিতে এখন কোনো পণ্য নেই।</div>`;
+  return `<div class="grid">
+    ${list.map(p=>{
+      const cat = CATEGORIES.find(c=>c.id===p.category);
+      const inCart = cart[p.id]>0;
+      return `
+      <div class="card">
+        <div class="card-media" style="background:linear-gradient(150deg, ${cat.color}, ${cat.color}CC);">
+          ${p.name.split(' ')[0]}
+          <span class="card-tag">${cat.name}</span>
+        </div>
+        <div class="card-body">
+          <h3>${p.name}</h3>
+          <div class="card-desc">${p.desc}</div>
+          ${p.stock<=5 ? `<div class="stock-low">মাত্র ${p.stock}টি বাকি</div>` : ''}
+          <div class="card-foot">
+            <span class="price">৳${p.price}</span>
+            <button class="add-btn ${inCart?'added':''}" data-add="${p.id}">${inCart? cart[p.id]+' যোগ হয়েছে' : 'কার্টে যোগ করুন'}</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderHow(){
+  return `
+  <div class="section" id="how" style="background:var(--blush);border-radius:24px;margin:0 24px;max-width:1132px;">
+    <div class="section-head"><h2>পেমেন্ট যেভাবে করবেন</h2></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      <div class="card" style="border:none;"><div class="card-body">
+        <h3>১. অর্ডার করুন</h3><div class="card-desc">পছন্দের পণ্য কার্টে যোগ করে চেকআউটে আপনার তথ্য দিন।</div>
+      </div></div>
+      <div class="card" style="border:none;"><div class="card-body">
+        <h3>২. বিকাশ/নগদে সেন্ড মানি করুন</h3><div class="card-desc">দেওয়া নাম্বারে মোট টাকা Send Money করুন এবং ট্রানজেকশন আইডি লিখুন।</div>
+      </div></div>
+      <div class="card" style="border:none;"><div class="card-body">
+        <h3>৩. কনফার্মেশন পান</h3><div class="card-desc">পেমেন্ট ভেরিফাই হলে আমরা কল/মেসেজে অর্ডার কনফার্ম করবো।</div>
+      </div></div>
+    </div>
+  </div>`;
+}
+
+function renderDrawer(){
+  const items = Object.entries(cart);
+  return `
+  <div class="overlay ${drawerOpen?'open':''}" id="drawerOverlay"></div>
+  <div class="drawer ${drawerOpen?'open':''}">
+    <div class="drawer-head"><h3>আপনার কার্ট</h3><button class="icon-btn" id="closeDrawerBtn">✕</button></div>
+    <div class="drawer-items">
+      ${items.length===0 ? '<div class="empty-note">কার্ট খালি</div>' : items.map(([id,qty])=>{
+        const p = products.find(x=>x.id===id);
+        const cat = CATEGORIES.find(c=>c.id===p.category);
+        return `
+        <div class="cart-row">
+          <div class="cart-thumb" style="background:${cat.color};"></div>
+          <div class="cart-info">
+            <h4>${p.name}</h4>
+            <span>৳${p.price} × ${qty}</span>
+          </div>
+          <div class="qty-ctrl">
+            <button data-qty="${id}:-1">−</button>
+            <span class="mono">${qty}</span>
+            <button data-qty="${id}:1">+</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="drawer-foot">
+      <div class="total-row"><span>মোট</span><span class="mono">৳${cartTotal()}</span></div>
+      <button class="full-btn" id="checkoutBtn" ${cartCount()===0?'disabled':''}>চেকআউট করুন</button>
+    </div>
+  </div>`;
+}
+
+function renderModal(){
+  if(checkoutStep===0) return '';
+  let body = '';
+  if(checkoutStep===1){
+    body = `
+    <h3>শিপিং তথ্য</h3>
+    <div class="step-note">ধাপ ১/২ — কোথায় পৌঁছে দেবো?</div>
+    <div class="field"><label>পুরো নাম</label><input id="ci-name" value="${checkoutInfo.name}" placeholder="আপনার নাম"></div>
+    <div class="field"><label>মোবাইল নাম্বার</label><input id="ci-phone" value="${checkoutInfo.phone}" placeholder="01XXXXXXXXX"></div>
+    <div class="field"><label>ঠিকানা</label><textarea id="ci-address" rows="2" placeholder="বাসা/রোড/এলাকা">${checkoutInfo.address}</textarea></div>
+    <div class="field"><label>শহর</label><input id="ci-city" value="${checkoutInfo.city}" placeholder="ঢাকা"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="closeModalBtn">বাতিল</button>
+      <button class="btn-primary" id="toStep2Btn">পরবর্তী ধাপ</button>
+    </div>`;
+  } else if(checkoutStep===2){
+    body = `
+    <h3>পেমেন্ট করুন</h3>
+    <div class="step-note">ধাপ ২/২ — মোট ৳${cartTotal()} পাঠান</div>
+    <div class="pay-tabs">
+      <button class="pay-tab ${checkoutInfo.method==='bkash'?'active':''}" data-method="bkash">বিকাশ</button>
+      <button class="pay-tab ${checkoutInfo.method==='nagad'?'active':''}" data-method="nagad">নগদ</button>
+    </div>
+    <div class="pay-box">
+      এই নাম্বারে <b>Send Money</b> করুন:<br>
+      <span class="num">${PAY_NUMBERS[checkoutInfo.method]}</span>
+      <div style="font-size:12.5px;margin-top:8px;color:rgba(43,21,32,0.65);">পরিমাণ: ৳${cartTotal()} — পাঠানোর পর নিচে ট্রানজেকশন আইডি দিন</div>
+    </div>
+    <div class="field"><label>ট্রানজেকশন আইডি</label><input id="ci-txn" value="${checkoutInfo.txn}" placeholder="যেমন: 8N7X2K1A"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="backStep1Btn">পেছনে</button>
+      <button class="btn-primary" id="confirmOrderBtn">অর্ডার নিশ্চিত করুন</button>
+    </div>`;
+  } else if(checkoutStep===3){
+    body = `
+    <h3>অর্ডার সম্পন্ন হয়েছে 🎉</h3>
+    <div class="step-note">আপনার অর্ডার কোড সংরক্ষণ করে রাখুন</div>
+    <div class="confirm-code">${lastOrderCode}</div>
+    <div style="font-size:13.5px;color:rgba(43,21,32,0.65);line-height:1.6;">পেমেন্ট ভেরিফাই হওয়ার পর আমরা আপনার দেওয়া মোবাইল নাম্বারে কল/মেসেজ করে অর্ডার কনফার্ম করবো।</div>
+    <div class="modal-actions">
+      <button class="btn-primary" id="doneBtn" style="width:100%;">ঠিক আছে</button>
+    </div>`;
+  }
+  return `
+  <div class="modal-overlay open">
+    <div class="modal">${body}</div>
+  </div>`;
+}
+
+function renderStore(){
+  return `
+    ${renderNav()}
+    ${renderHero()}
+    <div class="section" id="shop">
+      <div class="section-head"><h2>সব পণ্য</h2><span>${products.length}টি পণ্য</span></div>
+      ${renderGrid()}
+    </div>
+    ${renderHow()}
+    <footer>
+      © ২০২৬ রং কসমেটিকস। সব লেনদেন ব্যক্তিগতভাবে ভেরিফাই করা হয়।
+      <div><button id="adminLinkBtn">Admin</button></div>
+    </footer>
+    ${renderDrawer()}
+    ${renderModal()}
+  `;
+}
+
+function renderAdmin(){
+  if(!adminAuthed){
+    return `
+    <div class="admin-shell" style="max-width:380px;">
+      <h2 style="margin-bottom:16px;">অ্যাডমিন লগইন</h2>
+      <div class="field"><label>পিন কোড</label><input id="pinInput" type="password" placeholder="••••"></div>
+      <button class="btn-primary" id="pinSubmitBtn" style="width:100%;">প্রবেশ করুন</button>
+      <button class="btn-ghost" id="backStoreBtn" style="width:100%;margin-top:10px;">স্টোরে ফিরে যান</button>
+    </div>`;
+  }
+  return `
+  <div class="admin-shell">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h2>অ্যাডমিন প্যানেল</h2>
+      <button class="btn-ghost" id="backStoreBtn2">স্টোরে ফিরে যান</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab ${adminTab==='orders'?'active':''}" data-tab="orders">অর্ডারসমূহ (${orders.length})</button>
+      <button class="admin-tab ${adminTab==='products'?'active':''}" data-tab="products">পণ্য ম্যানেজমেন্ট</button>
+    </div>
+    ${adminTab==='orders' ? renderOrdersTab() : renderProductsTab()}
+  </div>`;
+}
+
+function renderOrdersTab(){
+  if(orders.length===0) return `<div class="empty-note">এখনো কোনো অর্ডার আসেনি।</div>`;
+  return `
+  <table>
+    <thead><tr><th>কোড</th><th>কাস্টমার</th><th>ফোন</th><th>পণ্য</th><th>মোট</th><th>পেমেন্ট</th><th>Txn ID</th><th>স্ট্যাটাস</th></tr></thead>
+    <tbody>
+      ${orders.slice().reverse().map(o=>`
+        <tr>
+          <td class="mono">${o.code}</td>
+          <td>${o.customer}<br><span style="font-size:11px;color:rgba(43,21,32,0.5);">${o.address}</span></td>
+          <td>${o.phone}</td>
+          <td>${o.items.map(i=>i.name+' ×'+i.qty).join('<br>')}</td>
+          <td class="mono">৳${o.total}</td>
+          <td>${o.method}</td>
+          <td class="mono">${o.txn||'-'}</td>
+          <td>
+            <select class="status" data-order="${o.code}">
+              ${['Pending Verification','Confirmed','Shipped','Delivered','Cancelled'].map(s=>`<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </td>
+        </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+function renderProductsTab(){
+  return `
+  <div class="admin-form" id="newProductForm">
+    <div class="field"><label>পণ্যের নাম</label><input id="np-name" placeholder="যেমন: ম্যাট লিপস্টিক"></div>
+    <div class="field"><label>ক্যাটাগরি</label>
+      <select id="np-category">${CATEGORIES.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select>
+    </div>
+    <div class="field"><label>দাম (৳)</label><input id="np-price" type="number" placeholder="৪৫০"></div>
+    <div class="field"><label>স্টক</label><input id="np-stock" type="number" placeholder="১০"></div>
+    <div class="field full"><label>বিবরণ</label><textarea id="np-desc" rows="2" placeholder="সংক্ষিপ্ত বিবরণ"></textarea></div>
+    <div class="field full"><button class="small-btn" id="addProductBtn">পণ্য যোগ করুন</button></div>
+  </div>
+  <table>
+    <thead><tr><th>নাম</th><th>ক্যাটাগরি</th><th>দাম</th><th>স্টক</th><th></th></tr></thead>
+    <tbody>
+      ${products.map(p=>`
+        <tr>
+          <td>${p.name}</td>
+          <td>${CATEGORIES.find(c=>c.id===p.category).name}</td>
+          <td class="mono">৳${p.price}</td>
+          <td class="mono">${p.stock}</td>
+          <td><button class="small-btn danger" data-del="${p.id}">মুছুন</button></td>
+        </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+/* ============ event wiring ============ */
+function attachEvents(){
+  document.querySelectorAll('[data-filter]').forEach(el=>{
+    el.onclick = ()=>{ activeFilter = el.dataset.filter; render(); };
+  });
+  document.querySelectorAll('[data-add]').forEach(el=>{
+    el.onclick = ()=> addToCart(el.dataset.add);
+  });
+  document.querySelectorAll('[data-qty]').forEach(el=>{
+    el.onclick = ()=>{ const [id,d] = el.dataset.qty.split(':'); changeQty(id, parseInt(d)); };
+  });
+  const openCartBtn = document.getElementById('openCartBtn');
+  if(openCartBtn) openCartBtn.onclick = ()=>{ drawerOpen=true; render(); };
+  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+  if(closeDrawerBtn) closeDrawerBtn.onclick = ()=>{ drawerOpen=false; render(); };
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  if(drawerOverlay) drawerOverlay.onclick = ()=>{ drawerOpen=false; render(); };
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  if(checkoutBtn) checkoutBtn.onclick = ()=>{ drawerOpen=false; openCheckout(); };
+
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  if(closeModalBtn) closeModalBtn.onclick = closeCheckout;
+  const toStep2Btn = document.getElementById('toStep2Btn');
+  if(toStep2Btn) toStep2Btn.onclick = ()=>{
+    checkoutInfo.name = document.getElementById('ci-name').value;
+    checkoutInfo.phone = document.getElementById('ci-phone').value;
+    checkoutInfo.address = document.getElementById('ci-address').value;
+    checkoutInfo.city = document.getElementById('ci-city').value;
+    if(!checkoutInfo.name || !checkoutInfo.phone || !checkoutInfo.address){ showToast('সব তথ্য পূরণ করুন'); return; }
+    goCheckoutStep(2);
+  };
+  const backStep1Btn = document.getElementById('backStep1Btn');
+  if(backStep1Btn) backStep1Btn.onclick = ()=>goCheckoutStep(1);
+  document.querySelectorAll('[data-method]').forEach(el=>{
+    el.onclick = ()=> setPayMethod(el.dataset.method);
+  });
+  const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+  if(confirmOrderBtn) confirmOrderBtn.onclick = ()=>{
+    checkoutInfo.txn = document.getElementById('ci-txn').value;
+    if(!checkoutInfo.txn){ showToast('ট্রানজেকশন আইডি দিন'); return; }
+    submitOrder();
+  };
+  const doneBtn = document.getElementById('doneBtn');
+  if(doneBtn) doneBtn.onclick = closeCheckout;
+
+  const adminLinkBtn = document.getElementById('adminLinkBtn');
+  if(adminLinkBtn) adminLinkBtn.onclick = ()=>{ view='admin'; render(); };
+  const backStoreBtn = document.getElementById('backStoreBtn');
+  if(backStoreBtn) backStoreBtn.onclick = ()=>{ view='store'; render(); };
+  const backStoreBtn2 = document.getElementById('backStoreBtn2');
+  if(backStoreBtn2) backStoreBtn2.onclick = ()=>{ view='store'; render(); };
+  const pinSubmitBtn = document.getElementById('pinSubmitBtn');
+  if(pinSubmitBtn) pinSubmitBtn.onclick = ()=> tryAdminLogin(document.getElementById('pinInput').value);
+
+  document.querySelectorAll('.admin-tab').forEach(el=>{
+    el.onclick = ()=>{ adminTab = el.dataset.tab; render(); };
+  });
+  document.querySelectorAll('[data-order]').forEach(el=>{
+    el.onchange = ()=> updateOrderStatus(el.dataset.order, el.value);
+  });
+  document.querySelectorAll('[data-del]').forEach(el=>{
+    el.onclick = ()=> deleteProduct(el.dataset.del);
+  });
+  const addProductBtn = document.getElementById('addProductBtn');
+  if(addProductBtn) addProductBtn.onclick = ()=>{
+    const name = document.getElementById('np-name').value;
+    const category = document.getElementById('np-category').value;
+    const price = parseInt(document.getElementById('np-price').value)||0;
+    const stock = parseInt(document.getElementById('np-stock').value)||0;
+    const desc = document.getElementById('np-desc').value;
+    if(!name || !price){ showToast('নাম ও দাম আবশ্যক'); return; }
+    addProduct({name,category,price,stock,desc});
+  };
+}
+
+loadData();
+</script>
+</body>
+</html>
